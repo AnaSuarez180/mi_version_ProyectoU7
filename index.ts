@@ -90,6 +90,22 @@ app.get('/songs',async (req: Request, res: Response) => {
     res.json(songs);
 });
 
+//Ruta Display Songs by id
+app.get('/songs/:id', async (req: Request, res: Response) => {
+    const song = await prisma.song.findUnique({
+        where: {
+            id: parseInt(req.params.id)
+        }
+    });
+    if (song) {
+        res.json(song);
+    } else {
+        res.status(404).send("Canción no encontrada");
+    }
+});
+
+//Fin del espacio
+
 //Espacio para el post de Songs
 app.post('/new_song', async (req: Request, res: Response) => {
     const song = req.body as { 
